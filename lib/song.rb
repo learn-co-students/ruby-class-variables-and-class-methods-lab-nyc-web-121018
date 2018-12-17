@@ -5,6 +5,8 @@ attr_accessor :name, :artist, :genre
 @@count = 0 #number of new songs created
 @@artists =[]
 @@genres = []
+@@artist_count = {}
+@@genre_count = {}
 
 def initialize(name, artist, genre)
   @name = name
@@ -13,6 +15,18 @@ def initialize(name, artist, genre)
   @@count += 1
   @@genres << genre
   @@artists << artist
+
+  if @@genre_count.has_key?(@genre)
+      @@genre_count[@genre] += 1
+    else
+      @@genre_count[@genre] = 1
+    end
+
+    if @@artist_count.has_key?(@artist)
+      @@artist_count[@artist] += 1
+    else
+      @@artist_count[@artist] = 1
+    end
 end
 
 def self.count
@@ -20,26 +34,19 @@ def self.count
 end
 
 def self.genres
-  @@genres
-  @@genres.!include?(self) << self #needs to be a unique genre
+  @@genres.uniq
 end
 
 def self.artists
-  @@artists
-  @@artists.!include?(self) << self #needs to be a unique genre
+  @@artists.uniq
 end
 
 def self.genre_count
-  genre_counter = {}
-  @@genres.each do |genre|
-    genre_counter[genre] = self.count
-  end
+  @@genre_count
 end
 
 def self.artist_count
-  artist_counter = {}
-  @@genres.each do |genre|
-    genre_counter[genre] = self.count
+  @@artist_count
 end
 
 end
